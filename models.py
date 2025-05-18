@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
@@ -8,12 +8,12 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import confusion_matrix
-
+import tensorflow as tf
 # CNN-specific imports
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense, Conv1D, Flatten, Dropout
-from tensorflow.python.keras.optimizers import adam_v2
-from tensorflow.python.keras.utils import to_categorical
+from keras.models import Sequential
+from keras.layers import Dense, Conv1D, Flatten, Dropout
+from keras.optimizers import adam_v2
+from keras.utils import to_categorical
 
 class Model:
 
@@ -21,62 +21,34 @@ class Model:
         self.name = ''
         path = 'dataset/kidney_disease.csv'
 
-        data = pd.read_csv
-        data.drop("id", axis=1, inplace=True)
+        data = pd.read_csv(path)
+        data = data[['age', 'bp', 'su', 'pc', 'pcc', 'sod', 'hemo', 'htn', 'dm', 'classification']]
         data.dropna(inplace=True)
+
+        data['dm'] = data['dm'].str.replace(" ", "")
+        data['dm'] = data['dm'].str.replace("\t", "")
+        data['classification'] = data['classification'].str.replace("\t", "")
+
 
         data.reset_index( inplace=True)
         data.drop('index', axis = 1, inplace=True)
-        data['classification'] = data['classification'].map({'ckd': 1, 'notckd': 0})
-        data['rbc'] = data['rbc'].map({'abnormal': 1, 'normal': 0})
-        data['pc'] = data['pc'].map({'abnormal': 1, 'normal': 0})
-        data['pcc'] = data['pcc'].map({'present': 1, 'notpresent': 0})
-        data['ba'] = data['ba'].map({'present': 1, 'notpresent': 0})
-        data['htn'] = data['htn'].map({'yes': 1, 'no': 0})
-        data['dm'] = data['dm'].map({'yes': 1, 'no': 0})
-        data['cad'] = data['cad'].map({'yes': 1, 'no': 0})
-        data['pe'] = data['pe'].map({'yes': 1, 'no': 0})
-        data['ane'] = data['ane'].map({'yes': 1, 'no': 0})
-        data['appet'] = data['appet'].map({'good': 1, 'poor': 0})
+        labelencoder = LabelEncoder()
+        data['pc'] = labelencoder.fit_transform(data['pc'])
+        data['pcc'] = labelencoder.fit_transform(data['pcc'])
+        data['htn'] = labelencoder.fit_transform(data['htn'])
+        data['dm'] = labelencoder.fit_transform(data['dm'])
+        data['classification'] = labelencoder.fit_transform(data['classification'])
 
         self.df = data
         self.split_data(self.df)
-
-        # df = pd.read_csv(path)
-        # df = df[['age', 'bp', 'su', 'pc', 'pcc', 'sod', 'hemo', 'htn', 'dm', 'classification']]
-
-        # df['age'] = df['age'].fillna(df['age'].mean())
-        # df['bp'] = df['bp'].fillna(df['bp'].mean())
-        # df['su'] = df['su'].fillna(df['su'].mode()[0])
-        # df['pc'] = df['pc'].fillna(df['pc'].mode()[0])
-        # df['pcc'] = df['pcc'].fillna(df['pcc'].mode()[0])
-        # df['sod'] = df['sod'].fillna(df['sod'].mode()[0])
-        # df['hemo'] = df['hemo'].fillna(df['hemo'].mode()[0])
-        # df['htn'] = df['htn'].fillna(df['htn'].mode()[0])
-        # df['dm'] = df['dm'].str.replace(" ", "")
-        # df['dm'] = df['dm'].str.replace("\t", "")
-        # df['dm'] = df['dm'].fillna(df['dm'].mode()[0])
-        # df['classification'] = df['classification'].str.replace("\t", "")
-        # df['classification'] = df['classification'].fillna(df['classification'].mode()[0])
-
-        # labelencoder = LabelEncoder()
-        # df['pc'] = labelencoder.fit_transform(df['pc'])
-        # df['pcc'] = labelencoder.fit_transform(df['pcc'])
-        # df['htn'] = labelencoder.fit_transform(df['htn'])
-        # df['dm'] = labelencoder.fit_transform(df['dm'])
-        # df['classification'] = labelencoder.fit_transform(df['classification'])
-        # self.df = df  # store cleaned df
-        # self.split_data(df)
 
     def split_data(self, df):
         X = df.drop('classification', axis=1)
         y = df['classification']
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
-        # x = df.iloc[:, [0, 1, 2, 3, 4, 5, 6, 7, 8]].values
-        # y = df.iloc[:, 9].values
-        # x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=24)
+        x = df.iloc[:, : 9].values
+        y = df.iloc[:, 9].values
+        X_train,X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
         self.x_train = X_train
         self.x_test = X_test
@@ -110,10 +82,11 @@ class Model:
 
     def cnn_classifier(self):
         self.name = 'CNN Classifier'
-        x = self.df.iloc[:, [0, 1, 2, 3, 4, 5, 6, 7, 8]].values
-        y = self.df.iloc[:, 9].values
-
-        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=24)
+        # Use the same data splitting approach as other classifiers
+        x_train = self.x_train.values
+        x_test = self.x_test.values
+        y_train = self.y_train.values
+        y_test = self.y_test.values
         scaler = StandardScaler()
         x_train = scaler.fit_transform(x_train)
         x_test = scaler.transform(x_test)
