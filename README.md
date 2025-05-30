@@ -1,5 +1,6 @@
 # Kidney_Cancer_Prediction_Using_Machine_Learning
 The goal of this project is to develop an automated chronic kidney disease assessment where user can enter some details and can get free assessment based on the input data, The assessments are done with the help of trained machine learning models.
+<<<<<<< HEAD
 
 ### To run application
 
@@ -14,3 +15,5 @@ $ python server.py
 4. To access stored results Use creadentials 
    Username : admin
    Password : admin
+=======
+>>>>>>> 921e75ec0c27a209fd30a304e3b6d76666bdc767
