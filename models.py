@@ -7,22 +7,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import confusion_matrix
-<<<<<<< HEAD
-# import tensorflow as tf
-# CNN-specific imports
-# from keras.models import Sequential
-# from keras.layers import Dense, Conv1D, Flatten, Dropout
-# from keras.optimizers import adam_v2
-# from keras.utils import to_categorical
-=======
-import tensorflow as tf
-# CNN-specific imports
-from keras.models import Sequential
-from keras.layers import Dense, Conv1D, Flatten, Dropout
-from keras.optimizers import adam_v2
-from keras.utils import to_categorical
->>>>>>> 921e75ec0c27a209fd30a304e3b6d76666bdc767
+from sklearn.metrics import confusion_matrix, mean_squared_error, accuracy_score, precision_score, recall_score, f1_score
 
 class Model:
 
@@ -89,51 +74,27 @@ class Model:
         classifier = KNeighborsClassifier()
         return classifier.fit(self.x_train, self.y_train)
 
-<<<<<<< HEAD
-=======
-    def cnn_classifier(self):
-        self.name = 'CNN Classifier'
-        # Use the same data splitting approach as other classifiers
-        x_train = self.x_train.values
-        x_test = self.x_test.values
-        y_train = self.y_train.values
-        y_test = self.y_test.values
-        scaler = StandardScaler()
-        x_train = scaler.fit_transform(x_train)
-        x_test = scaler.transform(x_test)
 
-        x_train = x_train.reshape((x_train.shape[0], x_train.shape[1], 1))
-        x_test = x_test.reshape((x_test.shape[0], x_test.shape[1], 1))
+    def accuracy(self, model):
 
-        y_train_cat = to_categorical(y_train)
+        predictions = model.predict(self.x_test)
+        y_true = self.y_test
+        cm = confusion_matrix(y_true, predictions)
+        mse = mean_squared_error(y_true, predictions)
+        rmse = np.sqrt(mse)
+        acc = accuracy_score(y_true, predictions)
+        precision = precision_score(y_true, predictions, average='weighted', zero_division=0)
+        recall = recall_score(y_true, predictions, average='weighted', zero_division=0)
+        f1 = f1_score(y_true, predictions, average='weighted', zero_division=0)
 
-        model = Sequential()
-        model.add(Conv1D(filters=32, kernel_size=3, activation='relu', input_shape=(x_train.shape[1], 1)))
-        model.add(Conv1D(filters=64, kernel_size=3, activation='relu'))
-        model.add(Flatten())
-        model.add(Dense(64, activation='relu'))
-        model.add(Dropout(0.5))
-        model.add(Dense(y_train_cat.shape[1], activation='softmax'))
-
-        model.compile(optimizer=adam_v2.Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
-        model.fit(x_train, y_train_cat, epochs=20, batch_size=16, verbose=0)
-
-        self.cnn_x_test = x_test
-        self.cnn_y_test = y_test
-        return model
->>>>>>> 921e75ec0c27a209fd30a304e3b6d76666bdc767
-
-    def accuracy(self, model, is_cnn=False):
-        if is_cnn:
-            predictions = model.predict(self.cnn_x_test)
-            predictions = predictions.argmax(axis=1)
-            cm = confusion_matrix(self.cnn_y_test, predictions)
-        else:
-            predictions = model.predict(self.x_test)
-            cm = confusion_matrix(self.y_test, predictions)
-
-        accuracy = (cm[0][0] + cm[1][1]) / np.sum(cm)
-        print(f"{self.name} has accuracy of {accuracy * 100:.2f} %")
+        print(f"\n{self.name}")
+        print("Confusion Matrix:\n", cm)
+        print(f"Accuracy: {acc:.4f}")
+        print(f"Precision: {precision:.4f}")
+        print(f"Recall: {recall:.4f}")
+        print(f"F1 Score: {f1:.4f}")
+        print(f"MSE: {mse:.4f}")
+        print(f"RMSE: {rmse:.4f}")
 
 
 if __name__ == '__main__':
@@ -143,8 +104,4 @@ if __name__ == '__main__':
     model.accuracy(model.randomforest_classifier())
     model.accuracy(model.naiveBayes_classifier())
     model.accuracy(model.knn_classifier())
-<<<<<<< HEAD
     # model.accuracy(model.cnn_classifier(), is_cnn=True)
-=======
-    model.accuracy(model.cnn_classifier(), is_cnn=True)
->>>>>>> 921e75ec0c27a209fd30a304e3b6d76666bdc767

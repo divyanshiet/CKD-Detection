@@ -23,7 +23,217 @@
   
   <!-- Template Main CSS File -->
   <link href="{{url_for('static',filename='css/style.css')}}" rel="stylesheet">
+  <style>
+    /* Hero Section */
+    #hero {
+      background: linear-gradient(120deg, #38b6ff 0%, #38ffb6 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.25);
+      z-index: 1;
+    }
+    .hero-container {
+      position: relative;
+      z-index: 2;
+      padding-top: 80px;
+    }
+    .hero-logo img {
+      width: 120px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+    }
+    #hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    #hero h2 {
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-bottom: 30px;
+      color: #e0f7fa;
+    }
+    .btn-get-started {
+      background: #00c896;
+      color: #fff;
+      padding: 14px 38px;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(0,200,150,0.18);
+      transition: background 0.2s;
+      border: none;
+    }
+    .btn-get-started:hover {
+      background: #009e6e;
+      color: #fff;
+    }
 
+    /* About Section */
+    #about {
+      position: relative;
+      background: #f8fafd;
+      padding: 60px 0 40px 0;
+    }
+    #about h1 {
+      color: #009e6e;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    #about p {
+      font-size: 1.1rem;
+      color: #444;
+    }
+    #about img {
+      border-radius: 18px;
+      box-shadow: 0 6px 24px rgba(56,182,255,0.08);
+    }
+    #about .btn {
+      background: #38b6ff;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(56,182,255,0.12);
+      transition: background 0.2s;
+    }
+    #about .btn:hover {
+      background: #009e6e;
+    }
+
+    /* Prediction Form Section */
+    #services {
+      background: #fff;
+      padding: 60px 0 40px 0;
+    }
+    #services .section-title h2 {
+      color: #38b6ff;
+      font-weight: 700;
+    }
+    #services form {
+      background: #f8fafd;
+      border-radius: 18px;
+      box-shadow: 0 8px 32px rgba(56,182,255,0.08);
+      padding: 36px 28px;
+      margin-top: 30px;
+      transition: box-shadow 0.2s;
+    }
+    #services form:hover {
+      box-shadow: 0 12px 36px rgba(56,182,255,0.16);
+    }
+    #services .icon-box {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      padding: 18px 16px;
+      margin-bottom: 18px;
+      transition: box-shadow 0.2s;
+    }
+    #services .icon-box:hover {
+      box-shadow: 0 4px 16px rgba(56,182,255,0.10);
+    }
+    #services .icon-box i {
+      font-size: 2.1rem;
+      color: #38b6ff;
+      margin-bottom: 8px;
+    }
+    #services .form-control, #services select {
+      border-radius: 8px;
+      border: 1px solid #cce6ff;
+      box-shadow: none;
+      margin-top: 6px;
+      font-size: 1rem;
+      padding: 8px 12px;
+      transition: border 0.2s;
+    }
+    #services .form-control:focus, #services select:focus {
+      border: 1.5px solid #38b6ff;
+      outline: none;
+    }
+    #services input[type="submit"], #services .btn-success {
+      background: linear-gradient(90deg, #38b6ff 0%, #38ffb6 100%);
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 25px;
+      padding: 12px 36px;
+      box-shadow: 0 2px 8px rgba(56,182,255,0.10);
+      transition: background 0.2s;
+    }
+    #services input[type="submit"]:hover, #services .btn-success:hover {
+      background: linear-gradient(90deg, #009e6e 0%, #38b6ff 100%);
+    }
+
+    /* Footer */
+    #footer {
+      position: relative;
+      background: linear-gradient(120deg, #38b6ff 0%, #38ffb6 100%);
+      color: #fff;
+      /* padding-top: 40px; */
+      box-shadow: 0 -4px 24px rgba(56,182,255,0.10);
+      overflow: hidden;
+    }
+    #footer::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.25); /* Same as #hero::before */
+      z-index: 0;
+    }
+    #footer > * {
+      position: relative;
+      z-index: 1;
+    }
+    #footer h3 {
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    #footer .social-links a {
+      color: #fff;
+      background: rgba(0,0,0,0.08);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 6px;
+      font-size: 1.3rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    #footer .social-links a:hover {
+      background: #fff;
+      color: #38b6ff;
+    }
+    #footer .copyright {
+      margin-top: 18px;
+      color: #e0f7fa;
+      font-size: 1rem;
+    }
+
+    /* Responsive Tweaks */
+    @media (max-width: 767px) {
+      #about .d-flex {
+        flex-direction: column !important;
+        gap: 24px !important;
+      }
+      #services form {
+        padding: 18px 8px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -33,7 +243,7 @@
     <div class="hero-container">
       <a href="index.html" class="hero-logo" data-aos="zoom-in"></a>
       <h1 data-aos="zoom-in">Welcome To Kidney Cancer Predictor System</h1>
-      <h2 data-aos="fade-up">It’s possible not just to survive, but to thrive and to live a healthy, wonderful life again.</h2>
+      <!-- <h2 data-aos="fade-up">It’s possible not just to survive, but to thrive and to live a healthy, wonderful life again.</h2> -->
       <a data-aos="fade-up" href="#about" class="btn-get-started scrollto">Get Started</a>
     </div>
   </section><!-- End Hero -->
@@ -52,7 +262,6 @@
           <li class="active"><a href="/">Home</a></li>
           <li><a href="#about">Demo</a></li>
           <li><a href="#services">Take a Test</a></li>
-          <li><a href="#contact">Contact</a></li>
           <li><a href="/login">Access Records</a></li>
          
 
@@ -110,7 +319,6 @@
 
         <div class="section-title" data-aos="fade-up">
           <h2>Take a Test</h2>
-          <p>We care for you</p>
         </div>
         
         <form action="/predict" method="POST">
@@ -227,58 +435,33 @@
 
     
     
-    <!-- ======= Contact Section ======= -->
+    <!-- ======= Contact Section ===
     <section id="contact" class="contact section-bg">
       <div class="container">
 
-        <div class="section-title">
-          <h2>Contact</h2
+        <div class="section-title text-center mb-5">
+          <h2>Contact</h2>
+          <p class="text-muted">Have questions or feedback? Reach out to us!</p>
         </div>
 
-        <div class="row">
-
-          <div class="col-lg-4">
-            <div class="info d-flex flex-column justify-content-center" data-aos="fade-right">
-              <div class="address">
-                <i class="icofont-google-map"></i>
-                <h4>Location:</h4>
-                <p>SG,<br>Pune, 411051</p>
-              </div>
-
-              <div class="email">
-                <i class="icofont-envelope"></i>
-                <h4>Email:</h4>
-                <p>info@feedback.com</p>
-              </div>
-
-              <div class="phone">
-                <i class="icofont-phone"></i>
-                <h4>Call:</h4>
-                <p>+91 814896589</p>
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="col-lg-8 mt-5 mt-lg-0">
-
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form" data-aos="fade-left">
-              <div class="form-row">
-                <div class="col-md-6 form-group">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-lg-7">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form shadow-lg p-4 rounded bg-white" data-aos="fade-up">
+              <div class="form-row row">
+                <div class="form-group col-md-6 mb-3">
                   <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
                   <div class="validate"></div>
                 </div>
-                <div class="col-md-6 form-group">
+                <div class="form-group col-md-6 mb-3">
                   <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
                   <div class="validate"></div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group mb-3">
                 <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
                 <div class="validate"></div>
               </div>
-              <div class="form-group">
+              <div class="form-group mb-3">
                 <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
                 <div class="validate"></div>
               </div>
@@ -287,15 +470,15 @@
                 <div class="error-message"></div>
                 <div class="sent-message">Your message has been sent. Thank you!</div>
               </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-success px-5 py-2">Send Message</button>
+              </div>
             </form>
-
           </div>
-
         </div>
 
       </div>
-    </section><!-- End Contact Section -->
+    </section>-- End Contact Section -->
 
   </main><!-- End #main -->
 
@@ -308,19 +491,10 @@
 
         <div class="row justify-content-center">
           <div class="col-lg-6">
-            <a href="#header" class="scrollto footer-logo"><img src="{{url_for('static',filename='img/hero-logo.png')}}" alt=""></a>
+            <a href="#header" class="scrollto footer-logo"></a>
             <h3>Kidney Cancer Predictor System</h3>
           </div>
         </div>
-
-        <div class="row footer-newsletter justify-content-center">
-          <div class="col-lg-6">
-            <form action="" method="post">
-              <input type="email" name="email" placeholder="Enter your Email"><input type="submit" value="Get in touch">
-            </form>
-          </div>
-        </div>
-
         <div class="social-links">
           <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
           <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
@@ -329,12 +503,6 @@
           <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
         </div>
 
-      </div>
-    </div>
-
-    <div class="container footer-bottom clearfix">
-      <div class="copyright">
-        &copy; Copyright <strong><span>KCP</span></strong>. All Rights Reserved
       </div>
     </div>
   </footer><!-- End Footer -->
@@ -357,6 +525,33 @@
 
   <!-- Template Main JS File -->
   <script src="{{url_for('static',filename='js/main.js')}}"></script>
+
+  <!-- Decorative SVG Wave -->
+<div style="margin-bottom:-8px;overflow:hidden;line-height:0;">
+  <svg viewBox="0 0 1440 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="min-width:100%;height:90px;">
+    <path fill="#f8fafd" fill-opacity="1" d="M0,32L48,53.3C96,75,192,117,288,117.3C384,117,480,75,576,58.7C672,43,768,53,864,74.7C960,96,1056,128,1152,122.7C1248,117,1344,75,1392,53.3L1440,32L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+  </svg>
+</div>
+
+<!-- Floating Medical Icons -->
+<div style="position:absolute;top:8%;left:3%;z-index:0;opacity:0.12;">
+  <img src="https://img.icons8.com/color/96/000000/stethoscope.png" width="48" alt="stethoscope"/>
+</div>
+<div style="position:absolute;bottom:10%;right:5%;z-index:0;opacity:0.10;">
+  <img src="https://img.icons8.com/color/96/000000/heart-with-pulse.png" width="54" alt="heart"/>
+</div>
+<div style="position:absolute;top:28%;right:10%;z-index:0;opacity:0.10;">
+  <img src="https://img.icons8.com/color/96/000000/medical-doctor.png" width="44" alt="doctor"/>
+</div>
+
+<!-- SVG Pattern Background -->
+<svg width="100%" height="60" viewBox="0 0 100 10" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;z-index:0;opacity:0.06;">
+  <circle cx="10" cy="5" r="1.2" fill="#38b6ff"/>
+  <circle cx="30" cy="5" r="1.2" fill="#38ffb6"/>
+  <circle cx="50" cy="5" r="1.2" fill="#009e6e"/>
+  <circle cx="70" cy="5" r="1.2" fill="#38b6ff"/>
+  <circle cx="90" cy="5" r="1.2" fill="#38ffb6"/>
+</svg>
 
 </body>
 
